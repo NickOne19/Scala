@@ -1,0 +1,5 @@
+val rdd = sc.textFile ("/mnt/d/scala/job.txt")
+val rdd1 = rdd.flatMap (x => x.split(","))
+val rdd2 = rdd1 map { (_, 1) }
+val rdd3 = rdd2.reduceByKey((x, y) => x + y)
+val rdd4 = rdd3.map(x => x.swap).sortByKey(false).map(x =>x.swap)

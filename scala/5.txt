@@ -1,0 +1,21 @@
+val personRDD = sc.textFile("/mnt/d/scala/job5.txt")
+personRDD.collect
+personRDD.map{x => val per = x.split(",") ; (per(0),per(1).trim.toInt)}.toDF("name","age")
+res1.show
+val df = spark.read.json("/mnt/d/scala/job5.json")
+val rdd1 = df.rdd
+rdd1.collect
+val personRDD = sc.textFile("/mnt/d/scala/job5.txt")
+case class Person(name:String,age:Long)
+personRDD.map{x => val per = x.split(",") ; Person(per(0),per(1).trim.toInt)}.toDS()
+res4.show
+case class Person(name:String,age:Long)
+val ds = Seq(Person("Andy",32)).toDS()
+val rdd2 = ds.rdd
+rdd2.collect
+val df = spark.read.json("/mnt/d/scala/job5.json")
+case class Person(name:String,age:Long)
+val ds = df.as[Person]
+ds.show
+val df2 = ds.toDF
+df2.show

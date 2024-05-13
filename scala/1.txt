@@ -1,0 +1,43 @@
+val data=Array(1,2,3,4,5)
+val distData=sc.parallelize(data)
+distData.reduce((a,b)=>a+b)
+val rdd = sc.textFile("/mnt/d/scala/job.txt")
+val wordRdd = rdd.flatMap(_.split(" "))
+val kvRdd = wordRdd.map((_,1))
+val wordCountRdd = kvRdd.reduceByKey(_ + _)
+wordCountRdd.collect
+wordCountRdd.saveAsTextFile("/mnt/d/scala/save")
+val rdd1 = sc.parallelize(List(5, 6, 4, 7, 3, 8, 2, 9, 1, 10))
+val rdd2 = rdd1.map(_ * 2).sortBy(x => x, true)
+val rdd3 = rdd2.filter(_ >= 10)
+rdd3.collect
+val rdd1 = sc.parallelize(Array("a b c", "d e f", "h i j"))
+val rdd2 = rdd1.flatMap(_.split(' '))
+rdd2.collect
+val rdd1 = sc.parallelize(List(5, 6, 4, 3))
+val rdd2 = sc.parallelize(List(1, 2, 3, 4))
+val rdd3 = rdd1.union(rdd2)
+val rdd4 = rdd1.intersection(rdd2)
+rdd3.distinct.collect
+rdd4.collect
+val rdd1 = sc.parallelize(List(("tom", 1), ("jerry", 3), ("kitty", 2)))
+val rdd2 = sc.parallelize(List(("jerry", 2), ("tom", 1), ("shuke", 2)))
+val rdd3 = rdd1.join(rdd2)
+rdd3.collect
+val rdd4 = rdd1 union rdd2
+rdd4.groupByKey
+rdd4.collect
+val rdd1 = sc.parallelize(List(("tom", 1), ("tom", 2), ("jerry", 3), ("kitty", 2)))
+val rdd2 = sc.parallelize(List(("jerry", 2), ("tom", 1), ("shuke", 2)))
+val rdd3 = rdd1.cogroup(rdd2)
+rdd3.collect
+val rdd1 = sc.parallelize(List(1, 2, 3, 4, 5))
+val rdd2 = sc.parallelize(Seq(rdd1.reduce(_ + _)))
+rdd2.collect
+val rdd1 = sc.parallelize(List(("tom", 1), ("jerry", 3), ("kitty", 2), ("shuke", 1)))
+val rdd2 = sc.parallelize(List(("jerry", 2), ("tom", 3), ("shuke", 2), ("kitty", 5)))
+val rdd3 = rdd1.union(rdd2)
+val rdd4 = rdd3.reduceByKey(_ + _)
+rdd4.collect
+val rdd5 = rdd4.map(t => (t._2, t._1)).sortByKey(false).map(t => (t._2, t._1))
+rdd5.collect
